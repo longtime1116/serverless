@@ -57,6 +57,11 @@ provider:
 functions:
   hello:
     handler: handler.hello
+    events:
+     - schedule:
+        name: scheduled-hello-tokinaga
+        description: 'This description was created by sls configure. tokinaga'
+        rate: cron(0/2 * * * ? *)
 
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
