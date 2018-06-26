@@ -55,14 +55,15 @@ provider:
 #    - exclude-me-dir/**
 
 functions:
-  hello:
-    handler: handler.hello
+  invoke_hello:
+    handler: handler.invoke_hello
     events:
      - schedule:
         name: scheduled-hello-tokinaga
         description: 'This description was created by sls configure. tokinaga'
         rate: cron(0/2 * * * ? *)
-
+  hello:
+    handler: handler.hello
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details
