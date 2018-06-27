@@ -8,11 +8,11 @@ module.exports.invoke_hello = (event, context, callback) => {
   var lambda = new aws.Lambda();
   var params = {
     FunctionName: "myServiceTokinaga-dev-hello",
-    InvokeArgs: JSON.stringify(innerEvent),
+    InvocationType: "Event",
+    Payload: JSON.stringify(innerEvent),
   };
 
-  // lambda.invoke(params, function(err, data){
-  lambda.invokeAsync(params, function(err, data){
+  lambda.invoke(params, function(err, data){
     if(err) {
       console.log("invoke error")
       context.done(err, err);
