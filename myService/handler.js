@@ -3,22 +3,12 @@ var aws = require('aws-sdk');
 
 module.exports.invoke_hello = (event, context, callback) => {
   var innerEvent = {};
-  // 親イベントが受け取った情報をそのまま子に渡す（eventをそのまま渡すとコケる場合がある）※詳細は未調査
-  // innerEvent.body = event.body || {};
-  // innerEvent.headers = event.headers || {};
-  // innerEvent.queryStringParameters = event.queryStringParameters || null;
-  // innerEvent.pathParameters = event.pathParameters || null;
-  // innerEvent.requestContext = event.requestContext || null;
-  // innerEvent.body = event.body || {};
-  // innerEvent.exampleData = { "var1" : "data001" };   // 親が受け取ったデータ以外の情報を追加で渡す場合
-  // innerEvent = JSON.stringify(innerEvent);
+  innerEvent.item_no = 246
 
   var lambda = new aws.Lambda();
   var params = {
     FunctionName: "myServiceTokinaga-dev-hello",
-    InvokeArgs: JSON.stringify(event),
-    // InvocationType: "RequestResponse",   //同期呼出
-    // Payload: innerEvent
+    InvokeArgs: JSON.stringify(innerEvent),
   };
 
   // lambda.invoke(params, function(err, data){
@@ -43,5 +33,8 @@ module.exports.hello = (event, context, callback) => {
   };
 
   console.log("hello!")
+  console.log(event)
+  console.log(event.item_no)
+  console.log("hello! end")
   callback(null, response);
 };
