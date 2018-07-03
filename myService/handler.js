@@ -2,25 +2,28 @@
 var aws = require('aws-sdk');
 
 module.exports.invoke_hello = (event, context, callback) => {
-  var innerEvent = {};
-  innerEvent.item_no = 246
-
   var lambda = new aws.Lambda();
+  var lambdaFunc = function(params){
+    lambda.invoke(params, function(err, data){
+      if(err) {
+        console.log(`invoke error(${params.Payload})`)
+        context.done(err, err);
+      } else {
+        console.log(`invoke done(${params.Payload})`)
+        context.done(null, '');
+      }
+    });
+  };
+
   var params = {
     FunctionName: "myServiceTokinaga-dev-hello",
     InvocationType: "Event",
-    Payload: JSON.stringify(innerEvent),
   };
 
-  lambda.invoke(params, function(err, data){
-    if(err) {
-      console.log("invoke error")
-      context.done(err, err);
-    } else {
-      console.log("invoke done")
-      context.done(null, '');
-    }
-  });
+  for (var i = 0; i < 10; i++) {
+    params.Payload = JSON.stringify({item_no: i});
+    lambdaFunc(params);
+  }
 };
 
 module.exports.hello = (event, context, callback) => {
